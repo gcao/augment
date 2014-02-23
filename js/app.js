@@ -37,7 +37,7 @@ addMarkers = function(data) {
       continue;
     }
     position = new google.maps.LatLng(zipData.latitude, zipData.longitude);
-    icon = "images/markers/number_" + (zipData.signed > 100 ? 100 : zipData.signed) + ".png";
+    icon = "images/markers/marker" + (zipData.signed > 99 ? 99 : zipData.signed) + ".png";
     _results.push(marker = new google.maps.Marker({
       map: map,
       position: position,
