@@ -6,7 +6,7 @@ createMap = ->
 
 view = ->
   [ 'div'
-    ['p', 'Signatures by zip code:']
+    [ 'p', '根据邮政编码显示签名数：' ]
     [ '#map'
       style:
         width: '100%'
@@ -14,15 +14,13 @@ view = ->
     ]
   ]
 
-T(view()).render here: true 
+T(view()).render inside: '#container'
 
-map = createMap()
-
-addMarkers = (data) ->
+addMarkers = (map, data) ->
   for zip, zipData of data
     continue if zipData.signed <= 0
     position = new google.maps.LatLng zipData.latitude, zipData.longitude
-    icon = "images/markers/marker#{if zipData.signed > 99 then 99 else zipData.signed}.png"
+    icon = "/augment/images/markers/marker#{if zipData.signed > 99 then 99 else zipData.signed}.png"
     marker   = new google.maps.Marker
       map      : map
       position : position
@@ -31,9 +29,10 @@ addMarkers = (data) ->
       icon     : icon
       zIndex   : zipData.signed
 
-if location.host.match(/capeus.org/)
-  jQuery.getJSON "http://gcao.cloudant.com/cape/sca5signatures?callback=?", (resp) -> addMarkers(resp.data)
-else
-  addMarkers(data)
+map = createMap()
 
+if location.host.match(/capeus.org/)
+  jQuery.getJSON "http://gcao.cloudant.com/cape/sca5signatures?callback=?", (resp) -> addMarkers(map, resp.data)
+else
+  addMarkers(map, data)
 

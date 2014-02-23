@@ -11,7 +11,7 @@ createMap = function() {
 
 view = function() {
   return [
-    'div', ['p', 'Signatures by zip code:'], [
+    'div', ['p', '根据邮政编码显示签名数：'], [
       '#map', {
         style: {
           width: '100%',
@@ -23,12 +23,10 @@ view = function() {
 };
 
 T(view()).render({
-  here: true
+  inside: '#container'
 });
 
-map = createMap();
-
-addMarkers = function(data) {
+addMarkers = function(map, data) {
   var icon, marker, position, zip, zipData, _results;
   _results = [];
   for (zip in data) {
@@ -37,7 +35,7 @@ addMarkers = function(data) {
       continue;
     }
     position = new google.maps.LatLng(zipData.latitude, zipData.longitude);
-    icon = "images/markers/marker" + (zipData.signed > 99 ? 99 : zipData.signed) + ".png";
+    icon = "/augment/images/markers/marker" + (zipData.signed > 99 ? 99 : zipData.signed) + ".png";
     _results.push(marker = new google.maps.Marker({
       map: map,
       position: position,
@@ -50,10 +48,12 @@ addMarkers = function(data) {
   return _results;
 };
 
+map = createMap();
+
 if (location.host.match(/capeus.org/)) {
   jQuery.getJSON("http://gcao.cloudant.com/cape/sca5signatures?callback=?", function(resp) {
-    return addMarkers(resp.data);
+    return addMarkers(map, resp.data);
   });
 } else {
-  addMarkers(data);
+  addMarkers(map, data);
 }

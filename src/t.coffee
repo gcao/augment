@@ -1,5 +1,7 @@
 VERSION = "0.8.0"
 
+$ = jQuery
+
 T = (template, data...) ->
   if not internal.isTemplate template
     template = new internal.Template(template)
