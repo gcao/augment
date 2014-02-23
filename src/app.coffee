@@ -32,7 +32,7 @@ addMarkers = (data) ->
       zIndex   : zipData.signed
 
 if location.host.match(/capeus.org/)
-  $.getJSON "http://gcao.cloudant.com/cape/sca5signatures?callback=?", (resp) -> addMarkers(resp.data)
+  jQuery.getJSON "http://gcao.cloudant.com/cape/sca5signatures?callback=?", (resp) -> addMarkers(resp.data)
 else
   addMarkers(data)
 

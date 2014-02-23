@@ -51,7 +51,7 @@ addMarkers = function(data) {
 };
 
 if (location.host.match(/capeus.org/)) {
-  $.getJSON("http://gcao.cloudant.com/cape/sca5signatures?callback=?", function(resp) {
+  jQuery.getJSON("http://gcao.cloudant.com/cape/sca5signatures?callback=?", function(resp) {
     return addMarkers(resp.data);
   });
 } else {
